@@ -1,5 +1,5 @@
 
-[![Go](https://github.com/chrisdedman/Golang-Web-App/actions/workflows/go.yml/badge.svg)](https://github.com/chrisdedman/Golang-Web-App/actions/workflows/go.yml)
+[![Go](https://github.com/chrisdedman/the-feed/actions/workflows/go.yml/badge.svg)](https://github.com/chrisdedman/the-feed/actions/workflows/go.yml)
 
 # Golang Template Web Application
 A simple web application built with Golang and PostgreSQL. The application is a simple CRUD application that allows users to create, read, update, and delete users from a PostgreSQL database.
