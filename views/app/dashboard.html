@@ -1,17 +1,21 @@
 {{template "header.html" }}
-<h1 class="title">
-  Golang Web App Template Dashboard
-</h1>
-<button class="warning" onclick="window.location.href = '/user/delete'">Delete User</button>
-<button class="warning" onclick="window.location.href = '/user/update'">Update Account</button>
-<p>
-  This is the main app. This is a protected route. You can only access this page if you are logged in.
-</p>
+<!-- <button class="warning" onclick="window.location.href = '/user/delete'">Delete User</button>
+<button class="warning" onclick="window.location.href = '/user/update'">Update Account</button> -->
+<div class="feeds">
+  {{range .feed}}
+  <div class="feed-item">
+    <h2 class="feed-title">{{.Title}}</h2>
+    <p class="feed-description">{{.Description}}</p>
+    <a class="read-more" href="{{.Link}}">Read More</a>
+  </div>
+  {{end}}
+</div>
+</div>
 
 <script>
   setMenu([
     { text: 'Home', url: '/' },
-    { text: 'Dashboard', url: '/user/dashboard' },
+    { text: 'Feed', url: '/user/feed' },
     { text: 'Log Out', url: '/user/logout' }
   ]);
 </script>
