@@ -1,0 +1,18 @@
+{{template "header.html" }}
+<h1 class="title">
+  Golang Web App Template Dashboard
+</h1>
+<button class="warning" onclick="window.location.href = '/user/delete'">Delete User</button>
+<button class="warning" onclick="window.location.href = '/user/update'">Update Account</button>
+<p>
+  This is the main app. This is a protected route. You can only access this page if you are logged in.
+</p>
+
+<script>
+  setMenu([
+    { text: 'Home', url: '/' },
+    { text: 'Dashboard', url: '/user/dashboard' },
+    { text: 'Log Out', url: '/user/logout' }
+  ]);
+</script>
+{{template "footer.html"}}
