@@ -183,3 +183,30 @@ input[type=text], input[type=password] {
     font-size: 14px;
   }
 }
+
+
+.feed-item {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.feed-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.feed-description {
+  margin-bottom: 10px;
+}
+
+.read-more {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
