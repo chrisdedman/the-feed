@@ -1,0 +1,43 @@
+{{template "header.html" }}
+<form id="feed-form">
+  <input
+    id="link"
+    type="text"
+    name="url"
+    placeholder="RSS Link"
+    required
+  >
+  <button type="submit">Add Feed</button>
+</form>
+
+<script>
+  setMenu([
+    { text: 'Home', url: '/' },
+    { text: 'Dashboard', url: '/user/dashboard' },
+    { text: 'Log Out', url: '/user/logout' }
+  ]);
+
+  document.getElementById('feed-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const formData = {
+      url: document.getElementById('link').value
+    };
+
+    // Send POST request to backend
+    fetch('/user/feed', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        window.location.href = '/user/dashboard';
+      });
+  });
+</script>
+{{template "footer.html"}}
