@@ -1,15 +1,21 @@
 {{template "header.html" }}
-<!-- <button class="warning" onclick="window.location.href = '/user/delete'">Delete User</button>
-<button class="warning" onclick="window.location.href = '/user/update'">Update Account</button> -->
+
 <div class="feeds">
-  {{range .feed}}
-  <div class="feed-item">
-    <h2 class="feed-title">{{.Title}}</h2>
-    <p class="feed-description">{{.Description}}</p>
-    <a class="read-more" href="{{.Link}}">Read More</a>
-  </div>
-  {{end}}
-</div>
+  {{- $prevTitle := ""}}
+  {{- range $index, $feed := .feed}}
+    {{- if ne $feed.FeedTitle $prevTitle}}
+      <!-- Display the FeedTitle -->
+      <h2 class="feed-title">{{$feed.FeedTitle}}</h2>
+    {{- end}}
+    {{- $prevTitle = $feed.FeedTitle}}
+    
+    <!-- Display the feed item -->
+    <div class="feed-item">
+      <h2 class="feed-title">{{$feed.Title}}</h2>
+      <p class="feed-description">{{html $feed.Description}}</p>
+      <a class="read-more" href="{{$feed.Link}}">Read More</a>
+    </div>
+  {{- end}}
 </div>
 
 <script>
@@ -19,4 +25,5 @@
     { text: 'Log Out', url: '/user/logout' }
   ]);
 </script>
+
 {{template "footer.html"}}

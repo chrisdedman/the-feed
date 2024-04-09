@@ -16,6 +16,7 @@ type UserFeed struct {
 
 // FeedItem represents a single feed item
 type FeedItem struct {
+	FeedTitle   string `json:"feedTitle"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Link        string `json:"link"`
@@ -76,6 +77,7 @@ func FetchFeedItems(feedItems []models.Feed) ([]FeedItem, error) {
 		// Iterate over feed items and convert them to controllers.FeedItem
 		for _, item := range feed.Items {
 			feedItem := FeedItem{
+				FeedTitle:   feed.Title,
 				Title:       item.Title,
 				Description: item.Description,
 				Link:        item.Link,
