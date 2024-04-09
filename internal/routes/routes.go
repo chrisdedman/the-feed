@@ -49,9 +49,25 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 	authorized := route.Group(("/user"))
 	authorized.Use(middleware.AuthMiddleware())
 	{
+		authorized.POST("/feed", server.AddFeed)
+		authorized.GET("/feed", func(ctx *gin.Context) {
+			ctx.HTML(http.StatusOK, "feed.html", gin.H{})
+		})
 		authorized.GET("/dashboard", func(ctx *gin.Context) {
-
-			ctx.HTML(http.StatusOK, "dashboard.html", gin.H{})
+			// Call GetFeed function to retrieve feed URLs from the database
+			feedItems, err := server.GetFeed(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			allFeedItems, err := controllers.FetchFeedItems(feedItems)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			ctx.HTML(http.StatusOK, "dashboard.html", gin.H{
+				"feed": allFeedItems,
+			})
 		})
 
 		authorized.GET("/api", func(c *gin.Context) {
