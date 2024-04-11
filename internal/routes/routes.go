@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/golang-web-app/internal/controllers"
-	middleware "github.com/golang-web-app/internal/middlewares"
+	"github.com/the-feed/internal/controllers"
+	middleware "github.com/the-feed/internal/middlewares"
 	"gorm.io/gorm"
 )
 
@@ -26,9 +26,9 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 		})
 
 		route.POST("/login", server.Login)
-		route.GET("/login", func(ctx *gin.Context) {
-			ctx.HTML(http.StatusOK, "login.html", gin.H{})
-		})
+		// route.GET("/login", func(ctx *gin.Context) {
+		// 	ctx.HTML(http.StatusOK, "login.html", gin.H{})
+		// })
 
 		route.POST("/signup", server.Register)
 		route.GET("/signup", func(ctx *gin.Context) {

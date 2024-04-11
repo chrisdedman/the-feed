@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/golang-web-app/internal/models"
+	"github.com/the-feed/internal/models"
 	"golang.org/x/crypto/bcrypt"
 )
 

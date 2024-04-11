@@ -4,10 +4,11 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-web-app/config/database"
-	"github.com/golang-web-app/internal/routes"
 	"github.com/joho/godotenv"
+	"github.com/the-feed/config/database"
+	"github.com/the-feed/internal/routes"
 )
 
 func main() {
@@ -59,6 +60,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
+
+	// Add CORS middleware
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowCredentials = true // Allow sending cookies from frontend to backend
+	corsConfig.AllowedHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	corsConfig.AllowedMethods = []string{"GET", "POST", "PUT", "DELETE"}
+	router.Use(cors.New(corsConfig))
 
 	// Initialize the routes and run the server
 	routes.AuthRoutes(router, db)

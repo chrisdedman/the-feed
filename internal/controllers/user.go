@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-web-app/internal/models"
-	"github.com/golang-web-app/internal/utils"
+	"github.com/the-feed/internal/models"
+	"github.com/the-feed/internal/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 

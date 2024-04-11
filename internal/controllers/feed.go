@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-web-app/internal/models"
 	"github.com/mmcdole/gofeed"
+	"github.com/the-feed/internal/models"
 )
 
 // UserFeed represents a user input for a feed.
@@ -85,5 +85,6 @@ func FetchFeedItems(feedItems []models.Feed) ([]FeedItem, error) {
 			allFeedItems = append(allFeedItems, feedItem)
 		}
 	}
+
 	return allFeedItems, nil
 }

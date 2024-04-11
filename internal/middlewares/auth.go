@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-web-app/internal/utils"
+	"github.com/the-feed/internal/utils"
 )
 
 /*

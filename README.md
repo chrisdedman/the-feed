@@ -6,11 +6,11 @@ A simple web application built with Golang and PostgreSQL. The application is a 
 A simple frontend is also included in the project to demonstrate the functionality of the application.
 
 ## Project Guide
-This is a guide for the Golang template CRUD web application project. You will find different guidelines to help you set up the project, and the database, and how to use Git and GitHub. You can find the wiki [here](https://github.com/chrisdedman/Golang-Web-App/wiki).
+This is a guide for the Golang template CRUD web application project. You will find different guidelines to help you set up the project, and the database, and how to use Git and GitHub. You can find the wiki [here](https://github.com/chrisdedman/the-feed/wiki).
 
 ### Table of Content
-1. [How to set up and use PostgreSQL](https://github.com/chrisdedman/Golang-Web-App/wiki/PostgresSQL-Setup-Guide)
-2. [How to use Git and GitHub](https://github.com/chrisdedman/Golang-Web-App/wiki/Git-&-GitHub-Guide)
+1. [How to set up and use PostgreSQL](https://github.com/chrisdedman/the-feed/wiki/PostgresSQL-Setup-Guide)
+2. [How to use Git and GitHub](https://github.com/chrisdedman/the-feed/wiki/Git-&-GitHub-Guide)
 3. [How to set up the project](#whats-needed-to-run-the-server)
 4. [How to run the server](#how-to-run-the-server)
 5. [Technologies](#technologies)
@@ -31,8 +31,8 @@ Replace the placeholders for the database connection with your own values (read 
 ## How to run the server
 1. Run the following commands on your terminal to clone the repository and run the server:
 ```bash
-git clone https://github.com/chrisdedman/Golang-Web-App.git
-cd Golang-Web-App # Change directory to the project folder
+git clone https://github.com/chrisdedman/the-feed.git
+cd the-feed # Change directory to the project folder
 make run          # Run the server using Makefile script (required Make)
 ```
 2. Open your browser and navigate to `http://localhost:3000` (or any other port you specified in the `.env` file)
