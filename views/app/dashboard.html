@@ -1,20 +1,26 @@
 {{template "header.html" . }}
 
-<div class="feeds">
+<div class="feeds-container">
+  <!-- Iterate over the feeds -->
   {{- $prevTitle := ""}}
   {{- range $index, $feed := .feed}}
-    {{- if ne $feed.FeedTitle $prevTitle}}
-      <!-- Display the FeedTitle -->
-      <h2 class="feed-title">{{$feed.FeedTitle}}</h2>
-    {{- end}}
-    {{- $prevTitle = $feed.FeedTitle}}
-    
-    <!-- Display the feed item -->
-    <div class="feed-item">
-      <h2 class="feed-title">{{$feed.Title}}</h2>
-      <p class="feed-description">{{html $feed.Description}}</p>
-      <a class="read-more" href="{{$feed.Link}}">Read More</a>
-    </div>
+  {{- if ne $feed.FeedTitle $prevTitle}}
+    <!-- Display the FeedTitle -->
+    <h2 class="feed-title clickable" style="cursor: pointer;">{{$feed.FeedTitle}}</h2>
+  {{- end}}
+  {{- $prevTitle = $feed.FeedTitle}}
+
+  <!-- Display the feed item (initially hidden) -->
+  <div class="feed-item" style="display: none;">
+    <h2 class="feed-title">{{$feed.Title}}</h2>
+    <p class="feed-description">{{html $feed.Description}}</p>
+    <a class="read-more" href="{{$feed.Link}}">Read More</a>
+  </div>
   {{- end}}
 </div>
+
+<script>
+  toggleFeedItem();
+</script>
+
 {{template "footer.html"}}
