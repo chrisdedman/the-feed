@@ -22,7 +22,6 @@ type FeedItem struct {
 	Link        string `json:"link"`
 }
 
-// fetchFeed fetches a feed from the given URL and returns the parsed feed.
 func FetchFeed(url string) (*gofeed.Feed, error) {
 	feedParser := gofeed.NewParser()
 	feed, err := feedParser.ParseURL(url)
@@ -33,7 +32,6 @@ func FetchFeed(url string) (*gofeed.Feed, error) {
 	return feed, nil
 }
 
-// AddFeed add the feed link to the database
 func (s *Server) AddFeed(c *gin.Context) {
 	var input UserFeed
 	if err := c.ShouldBind(&input); err != nil {
@@ -53,7 +51,6 @@ func (s *Server) AddFeed(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "feed added successfully"})
 }
 
-// GetFeed gets the feed from the database
 func (s *Server) GetFeed(c *gin.Context) ([]models.Feed, error) {
 	var feed []models.Feed
 
@@ -64,7 +61,6 @@ func (s *Server) GetFeed(c *gin.Context) ([]models.Feed, error) {
 	return feed, nil
 }
 
-// FetchFeedItems fetches feed items from the given URL and returns them.
 func FetchFeedItems(feedItems []models.Feed) ([]FeedItem, error) {
 	var allFeedItems []FeedItem
 	for _, feedItem := range feedItems {
@@ -74,7 +70,6 @@ func FetchFeedItems(feedItems []models.Feed) ([]FeedItem, error) {
 			continue // Skip to the next feed
 		}
 
-		// Iterate over feed items and convert them to controllers.FeedItem
 		for _, item := range feed.Items {
 			feedItem := FeedItem{
 				FeedTitle:   feed.Title,
