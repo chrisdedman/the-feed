@@ -13,22 +13,21 @@ import (
 	"github.com/the-feed/internal/models"
 )
 
-// GenerateToken generates a JWT token for the provided user.
 func GenerateToken(user models.User) (string, error) {
 	tokenLifespan, err := strconv.Atoi(os.Getenv("TOKEN_HOUR_LIFESPAN"))
 	if err != nil {
 		return "", err
 	}
 
-	// Set token claims
 	claims := jwt.MapClaims{
-		"auth": true,
-		"id":   user.ID,
-		"exp":  time.Now().Add(time.Hour * time.Duration(tokenLifespan)).Unix(),
-		"role": "user",
+		"auth":     true,
+		"id":       user.ID,
+		"email":    user.Email,
+		"username": user.Username,
+		"exp":      time.Now().Add(time.Hour * time.Duration(tokenLifespan)).Unix(),
+		"role":     "user",
 	}
 
-	// Generate token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(os.Getenv("API_SECRET")))
 	if err != nil {
@@ -38,7 +37,6 @@ func GenerateToken(user models.User) (string, error) {
 	return tokenString, nil
 }
 
-// ValidateToken validates the JWT token provided in the request headers.
 func ValidateToken(c *gin.Context) (jwt.MapClaims, error) {
 	token, err := GetToken(c)
 
@@ -46,7 +44,6 @@ func ValidateToken(c *gin.Context) (jwt.MapClaims, error) {
 		return nil, err
 	}
 
-	// Check if token is valid
 	if user, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		return user, nil
 	}
@@ -55,11 +52,9 @@ func ValidateToken(c *gin.Context) (jwt.MapClaims, error) {
 }
 
 func GetToken(c *gin.Context) (*jwt.Token, error) {
-	// Extract token from request header
-	tokenString := getTokenFromRequest(c)
-
-	if tokenString == "" {
-		return nil, errors.New("no token provided")
+	tokenString, err := GetTokenFromRequest(c)
+	if err != nil {
+		return nil, err
 	}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -70,33 +65,17 @@ func GetToken(c *gin.Context) (*jwt.Token, error) {
 		return []byte(os.Getenv("API_SECRET")), nil
 	})
 
-	if token.Valid {
-		fmt.Println("Token is valid:", token.Valid)
-	} else {
-		fmt.Println("Error: Token is invalid:", err)
-	}
-
 	if err != nil {
-		if ve, ok := err.(*jwt.ValidationError); ok {
-			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-				return nil, errors.New("token is malformed")
-			} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
-				return nil, errors.New("token is expired or not yet valid")
-			} else {
-				return nil, fmt.Errorf("token validation error: %v", err)
-			}
-		}
-		return nil, fmt.Errorf("failed to parse token: %v", err)
+		return nil, err
 	}
 
 	return token, nil
 }
 
-// getTokenFromRequest extracts the JWT token from the request headers.
-func getTokenFromRequest(c *gin.Context) string {
+func GetTokenFromRequest(c *gin.Context) (string, error) {
 	authHeader := c.Request.Header.Get("Cookie")
 	if authHeader == "" {
-		return ""
+		return "", errors.New("no cookie provided")
 	}
 
 	cookieParts := strings.Split(authHeader, ";")
@@ -109,5 +88,5 @@ func getTokenFromRequest(c *gin.Context) string {
 		}
 	}
 
-	return token
+	return token, nil
 }

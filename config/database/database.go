@@ -17,8 +17,7 @@ type Config struct {
 	SSLMode  string
 }
 
-// InitDB initializes the database connection and performs necessary migrations.
-func InitDB(cfg Config) (*gorm.DB, error) {
+func InitDB(cfg models.DatabaseConfig) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
 		cfg.Host, cfg.User, cfg.Password, cfg.DBName, cfg.Port, cfg.SSLMode)
 
@@ -28,8 +27,10 @@ func InitDB(cfg Config) (*gorm.DB, error) {
 	}
 
 	err = db.AutoMigrate(&models.User{})
-	db.Create(&models.User{Email: "dev@localhost.com", Password: "Password123!", Username: "dev"})
-	db.AutoMigrate(&models.Feed{})
+	if err != nil {
+		return nil, err
+	}
+	err = db.AutoMigrate(&models.Feed{})
 	if err != nil {
 		return nil, err
 	}
