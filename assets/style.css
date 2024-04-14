@@ -252,6 +252,11 @@ input[type=password] {
   object-fit: cover;
 }
 
+.feeds-container {
+  display: column;
+  padding-top: 15px;
+}
+
 .feed-item {
   background-color: #f9f9f9;
   padding: 20px;
