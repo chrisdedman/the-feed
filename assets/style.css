@@ -1,10 +1,31 @@
 /* General Style */
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light only;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: #f1f1f1;
+  min-height: 100vh;
+}
+
+h1 {
+  margin: 0;
+  font-family: monospace;
+  text-transform: uppercase;
+}
+
+header {
+  padding: 8rem 0 2rem;
 }
 
 .title {
@@ -281,4 +302,100 @@ input[type=password] {
 
 .read-more:hover {
   text-decoration: underline;
+}
+
+/* Style the arrow */
+.dropdown-arrow {
+  color: black;
+  font-size: 12px;
+  align-items: center;
+}
+
+.content {
+  width: 700px;
+  max-width: calc(100% - 2rem);
+  margin: 0 auto;
+}
+
+.drop {
+  --drop: clamp(1.5rem, 1vw + 1rem, 6rem);
+  height: var(--drop);
+  width: calc(var(--drop));
+  aspect-ratio: 4 / 3;
+  float: left;
+  position: relative;
+  shape-outside: inset(0 0 0 0);
+}
+
+.drop::after {
+  content: "@";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  line-height: 2rem;
+  font-size: calc(var(--drop) * 1);
+  font-weight: 600;
+  text-align: left;
+  place-items: start;
+}
+
+.quote-holder {
+  position: absolute;
+  left: calc(100% + (var(--gap) * 0.5));
+  top: calc(var(--y) * 1%);
+  height: calc(var(--size) * 2px);
+  aspect-ratio: 1;
+  background: radial-gradient(white 0% 50%, transparent 70%);
+  translate: -50% -50%;
+  border-radius: 50%;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  container-type: inline-size;
+  display: grid;
+  place-items: center;
+}
+
+blockquote {
+  margin: 0;
+  text-align: center;
+  font-size: 14cqi;
+}
+
+.columns {
+  display: flex;
+  gap: var(--gap);
+}
+
+:root {
+  --size: 100;
+  --y: 100;
+  --gap: 1rem;
+}
+
+.outside {
+  position: relative;
+  width: calc(var(--size) * 1px);
+  height: calc(100% + (var(--size) * 1px));
+}
+
+.column:first-of-type .outside {
+  float: right;
+  shape-outside: circle(calc(var(--size) * 1px) at 100% calc(var(--y) * 1%));
+}
+
+.column:last-of-type .outside {
+  float: left;
+  shape-outside: circle(calc(var(--size) * 1px) at 0 calc(var(--y) * 1%));
+}
+
+.columns p {
+  font-size: .875rem;
+  text-align: justify;
+}
+
+.outside {
+  float: right;
+  shape-outside: circle(50%);
 }
