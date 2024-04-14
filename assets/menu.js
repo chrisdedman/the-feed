@@ -1,3 +1,29 @@
+/*
+ * This Function is used to toggle the display of the feed items.
+  * When the user clicks on a feed title, the feed item will be displayed.
+  * When the user clicks on the feed title again, the feed item will be hidden.
+  * This function is called when the page is loaded.
+*/
+function toggleFeedItem() {
+  var feedTitles = document.querySelectorAll('.clickable');
+
+  feedTitles.forEach(function(feedTitle) {
+    feedTitle.addEventListener('click', function() {
+      // Toggle the display of the next sibling feed item
+      var feedItem = this.nextElementSibling;
+
+      while (feedItem && feedItem.classList.contains('feed-item')) {
+        if (feedItem.style.display === 'none' || feedItem.style.display === '') {
+          feedItem.style.display = 'block';
+        } else {
+          feedItem.style.display = 'none';
+        }
+        feedItem = feedItem.nextElementSibling;
+      }
+    });
+  });
+}
+
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function settings() {
