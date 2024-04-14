@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/mmcdole/gofeed"
 	"github.com/the-feed/internal/models"
 )
@@ -33,15 +34,22 @@ func FetchFeed(url string) (*gofeed.Feed, error) {
 }
 
 func (s *Server) AddFeed(c *gin.Context) {
+	userID := c.MustGet("user").(jwt.MapClaims)
+	fmt.Println("User ID:", userID)
+
+	var user models.User
+	if err := s.db.Where("id = ?", userID["id"].(float64)).First(&user).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "user not authorized to add feed"})
+		return
+	}
+
 	var input UserFeed
 	if err := c.ShouldBind(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	fmt.Println(input.Url)
-
-	url := models.Feed{URL: input.Url}
+	url := models.Feed{URL: input.Url, UserID: userID["id"].(float64)}
 
 	if err := s.db.Create(&url).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -52,9 +60,12 @@ func (s *Server) AddFeed(c *gin.Context) {
 }
 
 func (s *Server) GetFeed(c *gin.Context) ([]models.Feed, error) {
+	userID := c.MustGet("user").(jwt.MapClaims)
+
 	var feed []models.Feed
 
-	if err := s.db.Find(&feed).Error; err != nil {
+	// Retrieve the feed associated with the user ID
+	if err := s.db.Where("user_id = ?", userID["id"].(float64)).Find(&feed).Error; err != nil {
 		return nil, err
 	}
 
