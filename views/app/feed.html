@@ -1,4 +1,6 @@
-{{template "header.html" }}
+{{ template "header.html" . }}
+<div class="box">
+  <h1 class="title">Add New Feed</h1>
 <form id="feed-form">
   <input
     id="link"
@@ -9,14 +11,9 @@
   >
   <button type="submit">Add Feed</button>
 </form>
+</div>
 
 <script>
-  setMenu([
-    { text: 'Home', url: '/' },
-    { text: 'Dashboard', url: '/user/dashboard' },
-    { text: 'Log Out', url: '/user/logout' }
-  ]);
-
   document.getElementById('feed-form').addEventListener('submit', function (event) {
     event.preventDefault();
 

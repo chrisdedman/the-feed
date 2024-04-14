@@ -1,4 +1,4 @@
-{{template "header.html" }}
+{{template "header.html" . }}
 
 <div class="feeds">
   {{- $prevTitle := ""}}
@@ -17,13 +17,4 @@
     </div>
   {{- end}}
 </div>
-
-<script>
-  setMenu([
-    { text: 'Home', url: '/' },
-    { text: 'Feed', url: '/user/feed' },
-    { text: 'Log Out', url: '/user/logout' }
-  ]);
-</script>
-
 {{template "footer.html"}}
