@@ -1,20 +1,60 @@
 {{ template "header.html" . }}
-<h1 class="title">
-	Golang Web App Template
-</h1>
-<p>
-	This is a template for the main app. This is not a protected route. You can access this page without being logged in.
-</p>
+<div class="content">
+	<header>
+		<h1>RSS: Feed Network</h1>
+	</header>
+	<main>
+		<div class="columns">
+			<div class="column">
+				<div class="outside">
+					<div class="quote-holder">
+						<blockquote aria-hidden="true">Your Feed, Your Choice.</blockquote>
+					</div>
+				</div>
+				<p>
+					<span class="drop"></span>
+					RSS Feed Network, we're on a mission to empower you with the latest, most reliable news from around the
+					globe. We believe in putting you in control of your newsfeed, free from the noise of sponsored content and any
+					other
+					unwelcome noises.
+				</p>
+				<p>
+					With our platform, you have the power to curate your own personalized feeds by subscribing to RSS feeds from
+					your favorite space agencies, scientific journals, STEM influencers, and more. Say goodbye to cluttered
+					timelines
+					and hello to a tailored news experience that matters to you.
+				</p>
+				<p>
+					But we're more than just a news aggregator. We're a community-driven platform that fosters meaningful
+					interactions and discussions. Share your latest RSS feed discoveries, engage in thoughtful conversations, and
+					connect with
+					like-minded individuals who share your interests.
+				</p>
+			</div>
+			<div class="column">
+				<div class="outside"></div>
+				<p>
+					We take your privacy and data security seriously. That's why we're committed to ethical data practices and
+					transparent policies that put you in control of your personal information.
+				</p>
+				<p>
+					Join us in our mission to explore and engage with RSS-based content in a spam-free environment. Together,
+					let's reclaim ownership of the content that we see and empower ourselves with knowledge.
+				</p>
+			</div>
+		</div>
+	</main>
+</div>
+</a>
 <script>
 	const isAuthenticated = localStorage.getItem('token') !== null;
-	
-	let menuItems = [
-		{ text: 'Home', url: '/' },
-	];
+
+	let menuItems = [];
 
 	if (isAuthenticated) {
 		menuItems.push({ text: 'Dashboard', url: '/user/dashboard' });
 	} else {
+		menuItems.push({ text: 'Home', url: '/' });
 		menuItems.push({ text: 'Login', url: '/login' });
 		menuItems.push({ text: 'Sign Up', url: '/signup' });
 	}
