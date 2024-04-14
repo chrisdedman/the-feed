@@ -10,10 +10,12 @@ import (
 	"gorm.io/gorm"
 )
 
-// AuthRoutes registers the authentication routes to the provided Gin router.
 func AuthRoutes(router *gin.Engine, db *gorm.DB) {
-	// Create a new server instance
 	server := controllers.NewServer(db)
+
+	router.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "errors.html", gin.H{})
+	})
 
 	/*
 		Register the authentication routes. Not protected by JWT middleware.
@@ -26,9 +28,9 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 		})
 
 		route.POST("/login", server.Login)
-		// route.GET("/login", func(ctx *gin.Context) {
-		// 	ctx.HTML(http.StatusOK, "login.html", gin.H{})
-		// })
+		route.GET("/login", func(ctx *gin.Context) {
+			ctx.HTML(http.StatusOK, "login.html", gin.H{})
+		})
 
 		route.POST("/signup", server.Register)
 		route.GET("/signup", func(ctx *gin.Context) {
@@ -51,7 +53,10 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 	{
 		authorized.POST("/feed", server.AddFeed)
 		authorized.GET("/feed", func(ctx *gin.Context) {
-			ctx.HTML(http.StatusOK, "feed.html", gin.H{})
+			user := ctx.MustGet("user").(jwt.MapClaims)
+			ctx.HTML(http.StatusOK, "feed.html", gin.H{
+				"user": user["username"],
+			})
 		})
 		authorized.GET("/dashboard", func(ctx *gin.Context) {
 			// Call GetFeed function to retrieve feed URLs from the database
@@ -65,7 +70,9 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				return
 			}
+			user := ctx.MustGet("user").(jwt.MapClaims)
 			ctx.HTML(http.StatusOK, "dashboard.html", gin.H{
+				"user": user["username"],
 				"feed": allFeedItems,
 			})
 		})
@@ -76,33 +83,30 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 			})
 		})
 
-		authorized.DELETE("/delete/:user_id", server.DeleteUser)
 		authorized.PUT("/update/:user_id", server.UpdateAccount)
-
 		authorized.GET("/update", func(ctx *gin.Context) {
 			user := ctx.MustGet("user").(jwt.MapClaims)
-			userID := user["id"].(float64)
 			ctx.HTML(http.StatusOK, "update.html", gin.H{
-				"userID": userID,
+				"userID": user["id"].(float64),
+				"user":   user["username"],
 			})
 		})
+
+		authorized.DELETE("/delete/:user_id", server.DeleteUser)
 		authorized.GET("/delete", func(ctx *gin.Context) {
 			user := ctx.MustGet("user").(jwt.MapClaims)
-			userID := user["id"].(float64)
 			ctx.HTML(http.StatusOK, "delete.html", gin.H{
-				"userID": userID,
+				"userID": user["id"].(float64),
+				"user":   user["username"],
 			})
 		})
 
-		// Protected logout route
 		authorized.POST("/logout", server.Logout)
 		authorized.GET("/logout", func(ctx *gin.Context) {
-			ctx.HTML(http.StatusOK, "logout.html", gin.H{})
+			user := ctx.MustGet("user").(jwt.MapClaims)
+			ctx.HTML(http.StatusOK, "logout.html", gin.H{
+				"user": user["username"],
+			})
 		})
 	}
-
-	// Wildcard route for default HTML layout
-	router.NoRoute(func(c *gin.Context) {
-		c.HTML(http.StatusNotFound, "errors.html", gin.H{})
-	})
 }
