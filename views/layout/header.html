@@ -24,7 +24,9 @@
 				<i class="fa fa-caret-down dropdown-arrow"></i>
 			</div>
 			<div id="setting" class="dropdown-content">
-				<p style="text-align: center; color: black;"><strong>{{.user}}</strong></p>
+				<p style="text-align: center; color: black; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+					<strong>{{.user}}</strong>
+				</p>
 				<hr>
 				<a href='/user/dashboard'><i class="fa fa-dashboard"></i> Dashboard</a>
 				<a href='/user/feed'><i class="fa fa-rss"></i> Add Feed</a>
