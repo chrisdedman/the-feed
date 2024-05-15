@@ -65,7 +65,7 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				return
 			}
-			allFeedItems, err := controllers.FetchFeedItems(feedItems)
+			allFeedItems, err := controllers.FetchFeedItems(server, feedItems)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				return
