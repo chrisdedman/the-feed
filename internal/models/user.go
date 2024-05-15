@@ -2,12 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-type Feed struct {
-	gorm.Model
-	URL    string  `gorm:"size:255;not null;" json:"url"`
-	UserID float64 `gorm:"not null;" json:"user_id"`
-}
-
 type User struct {
 	gorm.Model
 	Username string `gorm:"size:255;not null;unique" json:"username"`
