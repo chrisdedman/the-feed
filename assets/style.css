@@ -276,6 +276,8 @@ input[type=password] {
 .feeds-container {
   display: column;
   padding-top: 15px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .feed-item {
