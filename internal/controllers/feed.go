@@ -2,10 +2,12 @@ package controllers
 
 import (
 	"fmt"
+	"html"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/mmcdole/gofeed"
 	"github.com/the-feed/internal/models"
 )
@@ -59,33 +61,50 @@ func (s *Server) AddFeed(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "feed added successfully"})
 }
 
-func (s *Server) GetFeed(c *gin.Context) ([]models.Feed, error) {
+func (s *Server) GetFeed(c *gin.Context) ([]models.FeedInfo, error) {
 	userID := c.MustGet("user").(jwt.MapClaims)
 
-	var feed []models.Feed
+	var feeds []models.Feed
+	var feedInfos []models.FeedInfo
 
-	// Retrieve the feed associated with the user ID
-	if err := s.db.Where("user_id = ?", userID["id"].(float64)).Find(&feed).Error; err != nil {
+	if err := s.db.Where("user_id = ?", userID["id"].(float64)).Find(&feeds).Error; err != nil {
 		return nil, err
 	}
 
-	return feed, nil
+	// Iterate through feeds to construct FeedInfo slice
+	for _, feed := range feeds {
+		feedInfos = append(feedInfos, models.FeedInfo{
+			FeedID: feed.ID,
+			URL:    feed.URL,
+		})
+	}
+
+	return feedInfos, nil
 }
 
-func FetchFeedItems(feedItems []models.Feed) ([]FeedItem, error) {
+func FetchFeedItems(s *Server, feedItems []models.FeedInfo) ([]FeedItem, error) {
 	var allFeedItems []FeedItem
+	// Create a Bluemonday policy to strip all HTML tags.
+	p := bluemonday.StrictPolicy()
+
 	for _, feedItem := range feedItems {
 		feed, err := FetchFeed(feedItem.URL)
 		if err != nil {
 			fmt.Println("Error fetching feed:", err)
-			continue // Skip to the next feed
+			continue
 		}
 
 		for _, item := range feed.Items {
+			plainTextDescription := p.Sanitize(item.Description)
+			plainTextTitle := p.Sanitize(item.Title)
+			// Decode HTML entities.
+			decodedDescription := html.UnescapeString(plainTextDescription)
+			decodedTitle := html.UnescapeString(plainTextTitle)
+
 			feedItem := FeedItem{
 				FeedTitle:   feed.Title,
-				Title:       item.Title,
-				Description: item.Description,
+				Title:       decodedTitle,
+				Description: decodedDescription,
 				Link:        item.Link,
 			}
 			allFeedItems = append(allFeedItems, feedItem)
