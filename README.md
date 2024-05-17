@@ -23,8 +23,10 @@
 
 ## What's needed to run the server
 - [Golang](https://golang.org/)
-- [Make](https://www.gnu.org/software/make/)
-- [PostgreSQL](https://www.postgresql.org/)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
+- [Make](https://www.gnu.org/software/make/) (if you don't use Docker)
+- [PostgreSQL](https://www.postgresql.org/) (if you don't use Docker)
 - ``.env`` file
 
 In the root directory, create a new file named ``.env``.<br>
@@ -32,14 +34,37 @@ Copy the content of ``.env.example`` into your ``.env`` file.
 
 Replace the placeholders for the database connection with your own values.
 
-## How to run the server
+## How to run the server (manual setup)
 1. Run the following commands on your terminal to clone the repository and run the server:
-```bash
-git clone https://github.com/chrisdedman/the-feed.git
-cd the-feed       # Change directory to the project folder
-make run          # Run the server using Makefile script (required Make)
-```
+    ```bash
+    git clone https://github.com/chrisdedman/the-feed.git
+    cd the-feed       # Change directory to the project folder
+    make run          # Run the server using Makefile script (required Make)
+    ```
 2. Open your browser and navigate to `http://localhost:3000` (or any other port you specified in the `.env` file)
+
+## How to set up Docker (Recommended)
+
+To run the server using Docker, you need to have Docker and Docker-Compose installed on your machine. Follow these steps to set up Docker:
+
+1. Install **Docker** and **Docker-Compose** by following the instructions for your operating system from the official Docker website: 
+    - [Docker](https://docs.docker.com/get-docker/)
+    - [Docker-Compose](https://docs.docker.com/compose/install/).
+2. Once installed, open a terminal or command prompt and navigate to the root directory of the project.
+
+3. Run the following command to start the server using Docker:
+
+   ```bash
+   docker-compose up
+   ```
+
+4. The server will start running in a Docker container. You can access the server by opening a web browser and navigating to `http://localhost:3000` (or any other port you specified in the `.env` file).
+
+5. To stop the server, press `Ctrl+C` in the terminal where the server is running, and then run the following command to stop and remove the Docker container (if needed):
+
+   ```bash
+   docker-compose down
+   ```
 
 ## Technologies
 - [Golang](https://golang.org/)
@@ -52,5 +77,4 @@ make run          # Run the server using Makefile script (required Make)
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Demo
-
-... coming soon ....
+![Demo](/feed/the-feed/assets/demo.gif)
