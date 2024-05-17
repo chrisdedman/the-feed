@@ -16,10 +16,11 @@
 
 ### Table of Content
 1. [How to set up the project](#whats-needed-to-run-the-server)
-2. [How to run the server](#how-to-run-the-server)
-3. [Technologies](#technologies)
-4. [License](#license)
-5. [Demo](#demo)
+2. [How to run the server](#how-to-run-the-server-manual-setup)
+3. [How to set up Docker](#how-to-set-up-docker-recommended)
+4. [Technologies](#technologies)
+5. [License](#license)
+6. [Demo](#demo)
 
 ## What's needed to run the server
 - [Golang](https://golang.org/)
