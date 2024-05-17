@@ -58,6 +58,21 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 				"user": user["username"],
 			})
 		})
+
+		authorized.GET("/feed/delete", func(ctx *gin.Context) {
+			feedItems, err := server.GetFeed(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			user := ctx.MustGet("user").(jwt.MapClaims)
+			ctx.HTML(http.StatusOK, "delete-feed.html", gin.H{
+				"userID": user["id"].(float64),
+				"feed":   feedItems,
+			})
+		})
+		authorized.DELETE("/feed/delete", server.RemoveFeed)
+
 		authorized.GET("/dashboard", func(ctx *gin.Context) {
 			// Call GetFeed function to retrieve feed URLs from the database
 			feedItems, err := server.GetFeed(ctx)
