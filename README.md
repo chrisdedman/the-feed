@@ -69,6 +69,8 @@ To run the server using Docker, you need to have Docker and Docker-Compose insta
 
 ## Technologies
 - [Golang](https://golang.org/)
+- [Docker](https://www.docker.com/)
+- [Docker-Compose](https://docs.docker.com/compose/)
 - [GORM](https://gorm.io/)
 - [Gin Web Framework](https://pkg.go.dev/github.com/gin-gonic/gin#section-readme)
 - [PostgreSQL](https://www.postgresql.org/)
