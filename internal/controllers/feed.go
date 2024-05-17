@@ -50,6 +50,13 @@ func (s *Server) AddFeed(c *gin.Context) {
 		return
 	}
 
+	// Check if feed already exists
+	var existingFeed models.Feed
+	if err := s.db.Where("url = ? AND user_id = ?", input.Url, userID["id"].(float64)).First(&existingFeed).Error; err == nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "feed already exists"})
+		return
+	}
+
 	url := models.Feed{URL: input.Url, UserID: userID["id"].(float64)}
 
 	if err := s.db.Create(&url).Error; err != nil {
