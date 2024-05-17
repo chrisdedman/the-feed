@@ -20,7 +20,7 @@ func Server(host string, db *gorm.DB) {
 		"views/user/account/update.html", "views/user/account/delete.html",
 		"views/layout/footer.html", "views/layout/header.html",
 		"views/app/dashboard.html", "views/app/index.html", "views/errors.html",
-		"views/app/feed.html",
+		"views/app/feed.html", "views/app/delete-feed.html",
 	}
 
 	router.LoadHTMLFiles(files...)
