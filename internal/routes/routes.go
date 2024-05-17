@@ -68,6 +68,7 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 			user := ctx.MustGet("user").(jwt.MapClaims)
 			ctx.HTML(http.StatusOK, "delete-feed.html", gin.H{
 				"userID": user["id"].(float64),
+				"user":   user["username"],
 				"feed":   feedItems,
 			})
 		})
