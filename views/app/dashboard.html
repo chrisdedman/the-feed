@@ -3,6 +3,14 @@
   <h1 class="page-title">The Feed</h1>
   <p class="page-description">Stay up to date with the 10 latest news from the sources that matter to you.</p>
 
+  <!-- Display the feed items -->
+  {{- if eq (len .feed) 0}}
+  <div class="no-feeds">
+    No feeds to display. Please add a feed to get started.
+    <br>
+    <a href="/user/feed">Add Feed</a>
+  </div>
+  {{- end}}
   <!-- Iterate over the feeds -->
   {{- $prevTitle := ""}}
   {{- range $index, $feed := .feed}}
