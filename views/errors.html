@@ -15,11 +15,13 @@
 {{end}}
 
 <script>
-  setMenu([
+  const menuItems = [
     { text: 'Home', url: '/' },
     { text: 'Sign Up', url: '/signup' },
     { text: 'Log In', url: '/login' }
-  ]);
+  ];
+
+  setMenu(menuItems);
 </script>
 
 {{template "footer.html"}}
