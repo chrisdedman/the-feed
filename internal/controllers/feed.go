@@ -94,7 +94,11 @@ func FetchFeedItems(s *Server, feedItems []models.FeedInfo) ([]FeedItem, error) 
 			continue
 		}
 
+		itemCount := 0
 		for _, item := range feed.Items {
+			if itemCount >= 10 {
+				break
+			}
 			plainTextDescription := p.Sanitize(item.Description)
 			plainTextTitle := p.Sanitize(item.Title)
 			// Decode HTML entities.
@@ -108,6 +112,7 @@ func FetchFeedItems(s *Server, feedItems []models.FeedInfo) ([]FeedItem, error) 
 				Link:        item.Link,
 			}
 			allFeedItems = append(allFeedItems, feedItem)
+			itemCount++
 		}
 	}
 
