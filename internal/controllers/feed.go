@@ -37,7 +37,6 @@ func FetchFeed(url string) (*gofeed.Feed, error) {
 
 func (s *Server) AddFeed(c *gin.Context) {
 	userID := c.MustGet("user").(jwt.MapClaims)
-	fmt.Println("User ID:", userID)
 
 	var user models.User
 	if err := s.db.Where("id = ?", userID["id"].(float64)).First(&user).Error; err != nil {
@@ -59,6 +58,39 @@ func (s *Server) AddFeed(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "feed added successfully"})
+}
+
+func (s *Server) RemoveFeed(c *gin.Context) {
+	userID := c.Query("userId")
+	if userID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user ID not provided"})
+		return
+	}
+
+	url := c.Query("url")
+	if url == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "URL not provided"})
+		return
+	}
+
+	var user models.User
+	if err := s.db.Where("id = ?", userID).First(&user).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "user not authorized to remove feed"})
+		return
+	}
+
+	var feed models.Feed
+	if err := s.db.Where("url = ? AND user_id = ?", url, userID).First(&feed).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "feed not found"})
+		return
+	}
+
+	if err := s.db.Delete(&feed).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "feed removed successfully"})
 }
 
 func (s *Server) GetFeed(c *gin.Context) ([]models.FeedInfo, error) {
