@@ -1,0 +1,54 @@
+{{ template "header.html" . }}
+<div class="box">
+  <h1 class="title">Delete A Feed</h1>
+  <div class="list-feed" style="margin-top: 0; display: flex;">
+    {{- if eq (len .feed) 0}}
+    <div class="no-feeds">
+      No feeds to delete.
+    </div>
+    {{- else}}
+    <!-- Display the feed url -->
+    <select id="link" required>
+      <option value="" disabled selected>Select a feed to delete</option>
+      {{- $prevTitle := ""}}
+      {{- range $index, $feed := .feed}}
+      {{- if ne $feed.URL $prevTitle}}
+      <option value="{{$feed.URL}}">{{$feed.URL}}</option>
+      {{- end}}
+      {{- $prevTitle = $feed.URL}}
+      {{- end}}
+    </select>
+  </div>
+  <button id="remove-button" class="warning">Remove Feed</button>
+  {{- end}}
+  <br>
+</div>
+
+<script>
+  document.getElementById('remove-button').addEventListener('click', function () {
+    const url    = document.getElementById('link').value;
+    const userId = "{{ .userID }}";
+
+    if (url) {
+      if (confirm("Are you sure you want to delete this feed?")) {
+        fetch(`/user/feed/delete?url=${encodeURIComponent(url)}&userId=${userId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+          .then(response => {
+            if (response.ok) {
+              alert('Feed successfully deleted.');
+              window.location.href = '/user/dashboard';
+            } else {
+              alert('Error deleting feed.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting feed.');
+          });
+      }
+    }
+  });
+</script>
+{{ template "footer.html" }}
