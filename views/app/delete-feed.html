@@ -1,7 +1,7 @@
 {{ template "header.html" . }}
 <div class="box">
   <h1 class="title">Delete A Feed</h1>
-  <div class="list-feed" style="margin-top: 0; display: flex;">
+  <div>
     {{- if eq (len .feed) 0}}
     <div class="no-feeds">
       No feeds to delete.
@@ -21,7 +21,6 @@
   </div>
   <button id="remove-button" class="warning">Remove Feed</button>
   {{- end}}
-  <br>
 </div>
 
 <script>
