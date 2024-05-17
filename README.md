@@ -77,4 +77,4 @@ To run the server using Docker, you need to have Docker and Docker-Compose insta
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Demo
-![Demo](/feed/the-feed/assets/demo.gif)
+![Demo](/assets/demo.gif)
