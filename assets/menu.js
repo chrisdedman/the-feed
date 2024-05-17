@@ -68,14 +68,9 @@ function setMenu(menuItems) {
   when the user checks the "New Password" checkbox.
 */
 function togglePasswordFields() {
-  var newPasswordCheckbox = document.getElementById('newPassword');
-  var confirmPasswordDiv = document.getElementById('confirmPasswordDiv');
-
-  if (newPasswordCheckbox.checked) {
-    confirmPasswordDiv.style.display = 'block';
-  } else {
-    confirmPasswordDiv.style.display = 'none';
-  }
+  var passwordDiv = document.getElementById("confirmPasswordDiv");
+  var checkbox = document.getElementById("newPassword");
+  passwordDiv.style.display = checkbox.checked ? "block" : "none";
 }
 
 /*
