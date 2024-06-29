@@ -16,7 +16,10 @@
   {{- range $index, $feed := .feed}}
   {{- if ne $feed.FeedTitle $prevTitle}}
   <!-- Display the FeedTitle -->
-  <h2 class="feed-title clickable">{{$feed.FeedTitle}}</h2>
+  <h2 class="feed-title clickable" onclick="toggleArrow(this)">
+    <i class="fa fa-arrow-right"></i> {{$feed.FeedTitle}}
+  </h2>
+
   {{- end}}
   {{- $prevTitle = $feed.FeedTitle}}
 
@@ -30,6 +33,15 @@
 </div>
 
 <script>
+  function toggleArrow(element) {
+    var icon = element.querySelector('.fa');
+    icon.classList.toggle('fa-arrow-right');
+    icon.classList.toggle('fa-arrow-down');
+    var feedItem = element.nextElementSibling;
+    if (feedItem && feedItem.classList.contains('feed-item')) {
+      feedItem.style.display = feedItem.style.display === 'none' ? 'block' : 'none';
+    }
+  }
   toggleFeedItem();
 </script>
 {{template "footer.html"}}

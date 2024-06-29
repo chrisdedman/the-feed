@@ -323,10 +323,6 @@ input[type=password] {
   margin-top: 20px;
 }
 
-.feed-title:hover {
-  text-decoration: underline;
-}
-
 .feed-description {
   font-size: 1em;
   color: #444;
@@ -483,4 +479,14 @@ blockquote {
   font-size: 1em;
   color: #d9534f;
   text-align: center;
+}
+
+.feed-title {
+  display: inline-flex;
+  align-items: center;
+}
+
+.feed-title .fa-arrow-right, 
+.feed-title .fa-arrow-down {
+  margin-right: 8px;
 }
