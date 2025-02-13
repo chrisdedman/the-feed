@@ -14,7 +14,7 @@
   <!-- Iterate over the feeds -->
   {{- $prevTitle := ""}}
   {{- range $index, $feed := .feed}}
-  {{- if ne $feed.FeedTitle $prevTitle}}
+  {{- if ne $feed.FeedTitle $prevTitle}}</br>
   <!-- Display the FeedTitle -->
   <h2 class="feed-title clickable" onclick="toggleArrow(this)">
     <i class="fa fa-arrow-right"></i> {{$feed.FeedTitle}}
