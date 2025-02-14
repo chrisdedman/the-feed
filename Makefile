@@ -32,14 +32,14 @@ fmt:
 
 build: deps
 	@echo "Building server binary..."
-	@go build -o bin/server ./
-	@go build -o bin/database ./config/database
+	@go build -o build/server ./
+	@go build -o build/database ./config/database
 
-run: vet fmt clean build
+run: vet fmt build
 	@echo "Running server..."
-	@./bin/server
-	@./bin/database
+	@./build/server
+	@./build/database
 
 clean:
 	@echo "Cleaning up..."
-	@rm -rf bin
+	@rm -rf build

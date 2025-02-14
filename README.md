@@ -40,7 +40,8 @@ Replace the placeholders for the database connection with your own values.
     ```bash
     git clone https://github.com/chrisdedman/the-feed.git
     cd the-feed       # Change directory to the project folder
-    make run          # Run the server using Makefile script (required Make)
+    make build        # Build the server (required Make)
+    ./build/server && ./build/database # Start the project
     ```
 2. Open your browser and navigate to `http://localhost:3000` (or any other port you specified in the `.env` file)
 
